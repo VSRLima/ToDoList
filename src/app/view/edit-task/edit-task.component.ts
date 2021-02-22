@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { RequestService } from 'src/app/shared/request.service';
 
 @Component({
   selector: 'app-edit-task',
@@ -7,7 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditTaskComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private service: RequestService
+  ) { }
 
   ngOnInit() {
   }

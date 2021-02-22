@@ -1,13 +1,15 @@
-import { ListComponent } from './list/list.component';
-import { EditTaskComponent } from './edit-task/edit-task.component';
-import { TaskRoutingModule } from './task.routing';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { ListComponent } from './list/list.component';
+import { EditTaskComponent } from './edit-task/edit-task.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    TaskRoutingModule
+    ReactiveFormsModule
   ],
   declarations: [
     EditTaskComponent,

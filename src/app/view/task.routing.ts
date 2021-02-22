@@ -5,10 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const taskRoutes: Routes = [
-  { path:'', component: ListComponent, children: [
-    { path: 'editar/:id', component: EditTaskComponent },
-    { path: 'novo', component: EditTaskComponent }
-  ] }
+  { path:'', component: ListComponent },
+  { path: 'editar/:id', component: EditTaskComponent },
+  { path: 'novo', component: EditTaskComponent }
 ];
 
 @NgModule({
