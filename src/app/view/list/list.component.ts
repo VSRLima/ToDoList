@@ -1,3 +1,4 @@
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -13,8 +14,12 @@ import { RequestService } from '../../shared/request.service';
 export class ListComponent implements OnInit {
 
   task$: Observable<Task[]>;
+  form: FormGroup
 
-  constructor(private service: RequestService) { }
+  constructor(
+    private service: RequestService,
+    private formBuilder: FormBuilder
+    ) { }
 
   ngOnInit() {
     this.task$ = this.service.getTask().pipe(
@@ -24,6 +29,11 @@ export class ListComponent implements OnInit {
         return EMPTY;
       })
     )
+
+    this.form = this.formBuilder.group({
+      title: [null, Validators.required],
+      description: [null, Validators.maxLength(500)]
+    })
   }
 
   handleError() {

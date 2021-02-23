@@ -1,10 +1,12 @@
+import { EditTaskComponent } from './view/edit-task/edit-task.component';
 import { ListComponent } from './view/list/list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: '', loadChildren: () => import('./view/task.module').then(m => m.TaskModule) }
+  { path: '', component: ListComponent },
+  { path: 'novo', component: EditTaskComponent }
 ];
 
 @NgModule({

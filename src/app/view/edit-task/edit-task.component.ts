@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RequestService } from 'src/app/shared/request.service';
 
 @Component({
@@ -17,6 +17,10 @@ export class EditTaskComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      title: [null, Validators.required],
+      description: [null, Validators.maxLength(500)]
+    })
   }
 
 }
