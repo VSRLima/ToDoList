@@ -7,14 +7,11 @@ import { AppComponent } from './app.component';
 import { TaskModule } from './view/task.module';
 import { AppRoutingModule } from './app.routing';
 import { ListComponent } from './view/list/list.component';
-import { EditTaskComponent } from './view/edit-task/edit-task.component';
-
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    EditTaskComponent,
     ListComponent
   ],
   imports: [

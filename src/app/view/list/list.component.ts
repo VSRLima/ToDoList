@@ -1,11 +1,11 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap,  } from 'rxjs/operators';
+import { Location } from '@angular/common';
 
 import { Task } from '../../model/task.model';
 import { RequestService } from '../../shared/request.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -15,12 +15,12 @@ import { ActivatedRoute } from '@angular/router';
 export class ListComponent implements OnInit {
 
   task$: Observable<Task[]>;
-  form: FormGroup
+  form: FormGroup;
 
   constructor(
     private service: RequestService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
+    private location: Location
     ) { }
 
   ngOnInit() {
@@ -32,12 +32,10 @@ export class ListComponent implements OnInit {
       })
     )
 
-    const task = this.route.snapshot.data['task'];
-
     this.form = this.formBuilder.group({
-      id: [ task.id ],
-      title: [task.title, Validators.required],
-      description: [task.description, Validators.maxLength(500)]
+      id: [null],
+      title: [ null , Validators.required],
+      description: [null, Validators.maxLength(500)]
     })
   }
 
@@ -45,7 +43,51 @@ export class ListComponent implements OnInit {
 
   }
 
-  onEdit() {
+  onEdit(id) {
+    this.service.getTaskById(id).subscribe(
+      data => {
+        this.populateForm(data);
+      }
+    );
+  }
+
+  populateForm(data) {
+    this.form.patchValue({
+      id: data.id,
+      title: data.title,
+      description: data.description
+    })
+  }
+
+  onSubmit() {
+    this.service.save(this.form.value).pipe(
+      tap(console.log)
+    ).subscribe(
+      success => {
+        console.log('sucesso')
+        window.location.reload();
+      },
+      error => {
+        console.error('erro');
+      },
+    )
+  }
+
+  resetForm() {
+    this.form.reset();
+  }
+
+  //colocar uma modal para confirmar a deleção do card
+  onDelete(id) {
+    this.service.deleteTask(id).subscribe(
+      success => {
+        console.log('task deleted');
+        window.location.reload();
+      },
+      error => {
+        console.log('error')
+      }
+    );
 
   }
 }

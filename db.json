@@ -1,19 +1,19 @@
 {
-    "task": [
-      {
-        "id": 1,
-        "title": "Fazer café",
-        "description": "Fazer um café bem quentinho"
-      },
-      {
-        "id": 2,
-        "title": "Jogar bola",
-        "description": "A seleção vai entrar em campo"
-      },
-      {
-        "id": 3,
-        "title": "Estudar programação",
-        "description": "Estudar Angular e Java Script"
-      }
-    ]
-  }
+  "task": [
+    {
+      "id": 1,
+      "title": "Fazer cafe",
+      "description": "Fazer um café bem quentinho"
+    },
+    {
+      "id": 2,
+      "title": "Jogar bola",
+      "description": "A seleção vai entrar em campo"
+    },
+    {
+      "id": 3,
+      "title": "Estudar programação",
+      "description": "Estudar Angular e Java Script"
+    }
+  ]
+}

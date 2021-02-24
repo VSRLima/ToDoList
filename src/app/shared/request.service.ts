@@ -29,11 +29,14 @@ export class RequestService {
   }
 
   private updateTask(task) {
-    return this.http.put(`${this.API}/${task.id}`, task).pipe(task(1));
+    console.log(task, ' update')
+    return this.http.put(`${this.API}/${task.id}`, task).pipe(take(1));
   }
 
   save(task) {
+    console.log(task);
     if (task.id) {
+      console.log(task)
       return this.updateTask(task);
     } else {
       return this.newTask(task);

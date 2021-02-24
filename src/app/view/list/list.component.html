@@ -1,36 +1,80 @@
-<div *ngIf="task$ | async as tasks">
-  <div class="card" *ngFor="let task of tasks">
-    <h5 class="card-header">{{task.title}}</h5>
-    <div class="card-body">
-      <p class="card-text">{{task.description}}</p>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Novo</button>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Editar</button>
+<nav class="navbars">
+  <div class="container-fluid">
+    <h1 class="navbar-brand">To do list</h1>
+  </div>
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-toggle="modal"
+    data-target="#exampleModal"
+    (click)="resetForm()"
+  >
+    Novo
+  </button>
+</nav>
+<section>
+  <div *ngIf="task$ | async as tasks">
+    <div class="card" *ngFor="let task of tasks">
+      <h5 class="card-header">{{ task.title }}</h5>
+      <div class="card-body">
+        <p class="card-text">{{ task.description }}</p>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#exampleModal"
+          (click)="onEdit(task.id)"
+        >
+          Editar
+        </button>
+        <button class="btn btn-danger" (click)="onDelete(task.id)">
+          Deletar
+        </button>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="form">
           <div class="mb-3">
             <label for="title" class="col-form-label">Title</label>
-            <input type="text" class="form-control" id="title" formControlName="title">
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              formControlName="title"
+            />
           </div>
           <div class="mb-3">
             <label for="description" class="col-form-label">Description</label>
-            <textarea id="description" class="form-control" formControlName="description"></textarea>
+            <textarea
+              id="description"
+              class="form-control"
+              formControlName="description"
+            ></textarea>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">
+          Send message
+        </button>
       </div>
     </div>
   </div>
