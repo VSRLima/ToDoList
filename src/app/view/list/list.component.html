@@ -1,11 +1,14 @@
 <div *ngIf="task$ | async as tasks">
-  <div *ngFor="let task of tasks">
-      <p>{{task.id}}</p>
-      <p>{{task.title}}</p>
-      <p>{{task.description}}</p>
+  <div class="card" *ngFor="let task of tasks">
+    <h5 class="card-header">{{task.title}}</h5>
+    <div class="card-body">
+      <p class="card-text">{{task.description}}</p>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Novo</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Editar</button>
+    </div>
   </div>
 </div>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Open Modal</button>
+
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

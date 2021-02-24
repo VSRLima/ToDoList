@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 
 import { Task } from '../../model/task.model';
 import { RequestService } from '../../shared/request.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -18,7 +19,8 @@ export class ListComponent implements OnInit {
 
   constructor(
     private service: RequestService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute
     ) { }
 
   ngOnInit() {
@@ -30,9 +32,12 @@ export class ListComponent implements OnInit {
       })
     )
 
+    const task = this.route.snapshot.data['task'];
+
     this.form = this.formBuilder.group({
-      title: [null, Validators.required],
-      description: [null, Validators.maxLength(500)]
+      id: [ task.id ],
+      title: [task.title, Validators.required],
+      description: [task.description, Validators.maxLength(500)]
     })
   }
 
