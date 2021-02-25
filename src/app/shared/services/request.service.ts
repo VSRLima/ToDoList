@@ -1,9 +1,11 @@
+import { environment } from './../../../environments/environment';
+import { Task } from './../../model/task.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from './../../environments/environment';
+
 import { delay, tap, take } from 'rxjs/operators';
 
-import { Task } from './../model/task.model';
+
 
 @Injectable({
   providedIn: 'root'

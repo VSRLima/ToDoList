@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 // import { EditTaskComponent } from './edit-task/edit-task.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TaskRoutingModule } from './task.routing';
+import { AlertModalComponent } from '../shared/alert-modal/alert-modal.component';
 
 
 @NgModule({
@@ -16,6 +17,6 @@ import { TaskRoutingModule } from './task.routing';
   declarations: [
     // EditTaskComponent,
     // ListComponent
-  ]
+  AlertModalComponent]
 })
 export class TaskModule { }

@@ -1,19 +1,27 @@
-<nav class="navbars">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <h1 class="navbar-brand">To do list</h1>
   </div>
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-toggle="modal"
-    data-target="#exampleModal"
-    (click)="resetForm()"
-  >
-    Novo
-  </button>
 </nav>
 <section>
-  <div *ngIf="task$ | async as tasks">
+  <header class="border-bot">
+    <h4>Hoje</h4>
+    <p>{{ todayDate | date }}</p>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#exampleModal"
+      (click)="resetForm()"
+    >
+      Novo
+    </button>
+  </header>
+
+  <ng-template #noTasks>
+    <p>Não tem tarefas</p>
+  </ng-template>
+  <div *ngIf="tasks.length; else noTasks">
     <div class="card" *ngFor="let task of tasks">
       <h5 class="card-header">{{ task.title }}</h5>
       <div class="card-body">
@@ -79,3 +87,10 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+

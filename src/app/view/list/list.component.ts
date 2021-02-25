@@ -1,3 +1,5 @@
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
@@ -14,22 +16,33 @@ import { RequestService } from '../../shared/request.service';
 })
 export class ListComponent implements OnInit {
 
-  task$: Observable<Task[]>;
+  tasks: Task[] = [];
   form: FormGroup;
+  todayDate=  new Date();
+  receber: Observable<any>;
+  showNoTask: boolean = false;
+  bsModalRef: BsModalRef;
+
 
   constructor(
     private service: RequestService,
     private formBuilder: FormBuilder,
-    private location: Location
+    private alertService: AlertModalComponent,
+    private modalService: BsModalService
     ) { }
 
   ngOnInit() {
-    this.task$ = this.service.getTask().pipe(
+
+    this.service.getTask().pipe(
       catchError((error) => {
         console.error(error);
         this.handleError();
         return EMPTY;
       })
+    ).subscribe(
+      dados => {
+          this.tasks = dados;
+      }
     )
 
     this.form = this.formBuilder.group({
@@ -40,7 +53,7 @@ export class ListComponent implements OnInit {
   }
 
   handleError() {
-
+    this.alertService.showAlert()
   }
 
   onEdit(id) {
