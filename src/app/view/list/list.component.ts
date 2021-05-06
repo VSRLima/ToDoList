@@ -1,9 +1,9 @@
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, tap,  } from 'rxjs/operators';
-import { Location } from '@angular/common';
 
 import { Task } from '../../model/task.model';
 import { RequestService } from '../../shared/services/request.service';
@@ -68,6 +68,8 @@ export class ListComponent implements OnInit {
     this.form.patchValue({
       id: data.id,
       title: data.title,
+      date_init: data.data_init,
+      date_finish: data.data_finish,
       description: data.description
     })
   }
@@ -77,11 +79,11 @@ export class ListComponent implements OnInit {
       tap(console.log)
     ).subscribe(
       success => {
-        console.log('sucesso')
+        this.alertService.showAlert('Sucesso ao salvar nova Task', 'success');
         window.location.reload();
       },
       error => {
-        console.error('erro');
+        this.alertService.showAlert('Erro ao salvar nova Task', 'danger');
       },
     )
   }
@@ -90,15 +92,14 @@ export class ListComponent implements OnInit {
     this.form.reset();
   }
 
-  //colocar uma modal para confirmar a deleção do card
   onDelete(id) {
     this.service.deleteTask(id).subscribe(
       success => {
-        console.log('task deleted');
+        this.alertService.showAlert('Sucesso ao deletar a Task', 'success');
         window.location.reload();
       },
       error => {
-        console.log('error')
+        this.alertService.showAlert('Erro ao deletar a Task', 'danger');
       }
     );
 

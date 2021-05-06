@@ -24,6 +24,8 @@
   <div *ngIf="tasks.length; else noTasks">
     <div class="card" *ngFor="let task of tasks">
       <h5 class="card-header">{{ task.title }}</h5>
+      <h5 class="card-header-date">{{ task.date_init }}</h5>
+      <h5 class="card-header-date">{{ task.date_finish }}</h5>
       <div class="card-body">
         <p class="card-text">{{ task.description }}</p>
         <button
@@ -65,6 +67,18 @@
               id="title"
               formControlName="title"
             />
+          </div>
+          <div class="mb-3">
+            <label for="date_init" class="col-form-label">Data Inicial</label>
+            <input type="date" id="date_init"
+            class="form-control"
+            formControlName="date_init">
+          </div>
+          <div class="mb-3">
+            <label for="date_finish" class="col-form-label">Data Final</label>
+            <input type="date" id="date_finish"
+            class="form-control"
+            formControlName="date_finish">
           </div>
           <div class="mb-3">
             <label for="description" class="col-form-label">Description</label>
