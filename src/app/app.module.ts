@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { TaskModule } from './view/task.module';
 import { AppRoutingModule } from './app.routing';
 import { ListComponent } from './view/list/list.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ListComponent } from './view/list/list.component';
     TaskModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

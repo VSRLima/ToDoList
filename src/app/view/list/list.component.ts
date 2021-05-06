@@ -1,5 +1,4 @@
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { AlertModalComponent } from './../../shared/alert-modal/alert-modal.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
@@ -7,7 +6,8 @@ import { catchError, tap,  } from 'rxjs/operators';
 import { Location } from '@angular/common';
 
 import { Task } from '../../model/task.model';
-import { RequestService } from '../../shared/request.service';
+import { RequestService } from '../../shared/services/request.service';
+import { AlertService } from 'src/app/shared/services/alert.service';
 
 @Component({
   selector: 'app-list',
@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
   constructor(
     private service: RequestService,
     private formBuilder: FormBuilder,
-    private alertService: AlertModalComponent,
+    private alertService: AlertService,
     private modalService: BsModalService
     ) { }
 
@@ -53,7 +53,7 @@ export class ListComponent implements OnInit {
   }
 
   handleError() {
-    this.alertService.showAlert()
+    this.alertService.showAlert('Opa, ocorreu um erro ao excluir esse item', 'warning')
   }
 
   onEdit(id) {
