@@ -24,10 +24,17 @@
   <div *ngIf="tasks.length; else noTasks">
     <div class="card" *ngFor="let task of tasks">
       <h5 class="card-header">{{ task.title }}</h5>
-      <h5 class="card-header-date">{{ task.date_init }}</h5>
-      <h5 class="card-header-date">{{ task.date_finish }}</h5>
+      <div class="dates">
+        <div class="date_init" *ngIf="task.date">
+          <h6>Começa em: </h6>
+          <span >{{ task.date | date:'dd/LL/YY'}}</span>
+        </div>
+      </div>
       <div class="card-body">
-        <p class="card-text">{{ task.description }}</p>
+        <div *ngIf="task.description">
+          <h6>Descrição: </h6>
+          <p class="card-text">{{ task.description }}</p>
+        </div>
         <button
           type="button"
           class="btn btn-primary"
@@ -55,12 +62,12 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Nova mensagem</h5>
       </div>
       <div class="modal-body">
         <form [formGroup]="form">
           <div class="mb-3">
-            <label for="title" class="col-form-label">Title</label>
+            <label for="title" class="col-form-label">Título</label>
             <input
               type="text"
               class="form-control"
@@ -69,19 +76,13 @@
             />
           </div>
           <div class="mb-3">
-            <label for="date_init" class="col-form-label">Data Inicial</label>
-            <input type="date" id="date_init"
+            <label for="date" class="col-form-label">Data</label>
+            <input type="date" id="date"
             class="form-control"
-            formControlName="date_init">
+            formControlName="date">
           </div>
           <div class="mb-3">
-            <label for="date_finish" class="col-form-label">Data Final</label>
-            <input type="date" id="date_finish"
-            class="form-control"
-            formControlName="date_finish">
-          </div>
-          <div class="mb-3">
-            <label for="description" class="col-form-label">Description</label>
+            <label for="description" class="col-form-label">Descrição</label>
             <textarea
               id="description"
               class="form-control"

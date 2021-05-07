@@ -1,5 +1,4 @@
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
@@ -32,7 +31,6 @@ export class ListComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-
     this.service.getTask().pipe(
       catchError((error) => {
         console.error(error);
@@ -41,15 +39,24 @@ export class ListComponent implements OnInit {
       })
     ).subscribe(
       dados => {
-          this.tasks = dados;
+        this.tasks = dados;
       }
     )
 
     this.form = this.formBuilder.group({
       id: [null],
       title: [ null , Validators.required],
-      description: [null, Validators.maxLength(500)]
+      description: [null, Validators.maxLength(500)],
+      date: [ null, Validators.required ]
     })
+  }
+
+  dateVerify(date) {
+    if(this.todayDate == date ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   handleError() {
@@ -68,8 +75,7 @@ export class ListComponent implements OnInit {
     this.form.patchValue({
       id: data.id,
       title: data.title,
-      date_init: data.data_init,
-      date_finish: data.data_finish,
+      date: data.date,
       description: data.description
     })
   }
