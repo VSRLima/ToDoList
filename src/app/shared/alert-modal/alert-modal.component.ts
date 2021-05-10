@@ -1,5 +1,5 @@
-import { Component, Input, TemplateRef } from '@angular/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Component, Input } from '@angular/core';
+import {  BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-alert-modal',

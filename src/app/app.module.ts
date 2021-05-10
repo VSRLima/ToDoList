@@ -9,12 +9,15 @@ import { AppRoutingModule } from './app.routing';
 import { ListComponent } from './view/list/list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CalendarModule } from '@syncfusion/ej2-angular-calendars';
+import { CalendarComponent } from './shared/calendar/calendar.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListComponent
+    ListComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +27,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    CalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
