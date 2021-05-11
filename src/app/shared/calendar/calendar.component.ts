@@ -1,7 +1,6 @@
 import { Input, ViewEncapsulation } from '@angular/core';
 import { Component, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
-import { count } from 'rxjs/operators';
 import { RequestService } from '../services/request.service';
 
 
@@ -16,12 +15,9 @@ export class CalendarComponent {
   @Input() item: any;
   constructor (
     public service: RequestService
-  ) {
-
-  }
+  ) {}
 
   customDate(args: any): void {
-    console.log(this.item);
     var count: number = 1;
     this.item.forEach((el) => {
       if (moment(el.date).format('YYYY/MM/DD') == moment(args.date).format('YYYY/MM/DD')) {
@@ -35,12 +31,9 @@ export class CalendarComponent {
         }
       }
     })
-
-
   }
 
   onValueChange(args: any): void {
     this.dateEvent.emit(args);
   }
-
 }

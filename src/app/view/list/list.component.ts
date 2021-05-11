@@ -20,7 +20,6 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class ListComponent implements OnInit {
   tasks: Task[] = [];
   taskToMark: Task[] = [];
-  testeDate: string;
   form: FormGroup;
   todayDate = new Date();
   receber: Observable<any>;
