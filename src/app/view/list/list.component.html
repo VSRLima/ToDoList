@@ -7,7 +7,12 @@
   <header class="border-bot">
     <h4>Hoje</h4>
     <p>{{ todayDate |date:'dd/MM/YY' }}</p>
-    <app-calendar (dateEvent)="dateFromCalendar($event)"></app-calendar>
+    <button (click)="renderCalendar()">
+      <mat-icon svgIcon="calendar_today"></mat-icon>
+    </button>
+    <div *ngIf="renderCal">
+      <app-calendar (dateEvent)="dateFromCalendar($event)" [item]="taskToMark"></app-calendar>
+    </div>
 
     <button
       type="button"

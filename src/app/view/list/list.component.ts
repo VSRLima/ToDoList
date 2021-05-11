@@ -4,10 +4,13 @@ import { Component, OnInit } from "@angular/core";
 import { EMPTY, Observable } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 
+
 import { Task } from "../../model/task.model";
 import { RequestService } from "../../shared/services/request.service";
 import { AlertService } from "src/app/shared/services/alert.service";
 import * as moment from "../../../../node_modules/moment";
+import { MatIconRegistry } from "@angular/material/icon";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: "app-list",
@@ -16,23 +19,33 @@ import * as moment from "../../../../node_modules/moment";
 })
 export class ListComponent implements OnInit {
   tasks: Task[] = [];
+  taskToMark: Task[] = [];
   testeDate: string;
   form: FormGroup;
   todayDate = new Date();
   receber: Observable<any>;
   showNoTask: boolean = false;
   bsModalRef: BsModalRef;
+  renderCal: boolean = false;
 
   constructor(
     private service: RequestService,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private modalService: BsModalService
-  ) {}
+    private modalService: BsModalService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) {
+    matIconRegistry.addSvgIcon('calendar_today', this.domSanitizer.bypassSecurityTrustResourceUrl("./../../../assets/calendar_today_black_24dp.svg"))
+  }
 
   ngOnInit() {
     this.getTask();
     this.formBuild();
+  }
+
+  renderCalendar(): void {
+    this.renderCal = !this.renderCal;
   }
 
   dateFromCalendar(date) {
@@ -51,6 +64,7 @@ export class ListComponent implements OnInit {
         })
       )
       .subscribe((dados) => {
+        this.taskToMark = dados;
         this.tasks = [];
         dados.forEach((el, i) => {
           if (

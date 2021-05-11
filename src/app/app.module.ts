@@ -8,9 +8,12 @@ import { TaskModule } from './view/task.module';
 import { AppRoutingModule } from './app.routing';
 import { ListComponent } from './view/list/list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ModalModule } from 'ngx-bootstrap/modal';
+
+import { SharedModule } from './shared/shared.module';
 import { CalendarModule } from '@syncfusion/ej2-angular-calendars';
 import { CalendarComponent } from './shared/calendar/calendar.component';
+import {MatIconModule} from '@angular/material/icon';
+
 
 
 @NgModule({
@@ -27,8 +30,10 @@ import { CalendarComponent } from './shared/calendar/calendar.component';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ModalModule.forRoot(),
-    CalendarModule
+    SharedModule,
+    CalendarModule,
+    BrowserAnimationsModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
