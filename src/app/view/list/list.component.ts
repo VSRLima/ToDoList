@@ -20,6 +20,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class ListComponent implements OnInit {
   tasks: Task[] = [];
   taskToMark: Task[] = [];
+  laterTasks: Task[] = [];
   form: FormGroup;
   todayDate = new Date();
   receber: Observable<any>;
@@ -31,7 +32,6 @@ export class ListComponent implements OnInit {
     private service: RequestService,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private modalService: BsModalService,
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer
   ) {
@@ -66,13 +66,13 @@ export class ListComponent implements OnInit {
         this.taskToMark = dados;
         this.tasks = [];
         dados.forEach((el, i) => {
-          if (
-            moment(el.date).format('YYYY/MM/DD') ==
-            moment(this.todayDate).format('YYYY/MM/DD')
-          ) {
+          if (moment(el.date).format('YYYY/MM/DD') == moment(this.todayDate).format('YYYY/MM/DD')) {
             this.tasks.push(dados[i]);
-          } else {
-            return;
+          } else if (moment(el.date).format('YYYY/MM/DD') < moment(this.todayDate).format('YYYY/MM/DD')) {
+            if (el.status == false) {
+              this.laterTasks.push(dados[i]);
+              console.log('tasks atrasadas', this.laterTasks);
+            }
           }
         });
       });
@@ -84,6 +84,7 @@ export class ListComponent implements OnInit {
       title: [null, Validators.required],
       description: [null, Validators.maxLength(500)],
       date: [null, Validators.required],
+      status: [ null ]
     });
   }
 
@@ -110,9 +111,11 @@ export class ListComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.form.value.status === null) {
+      this.form.value.status = false;
+    }
     this.service
       .save(this.form.value)
-      .pipe(tap(console.log))
       .subscribe(
         (success) => {
           this.alertService.showAlert("Sucesso ao salvar nova Task", "success");
@@ -138,5 +141,22 @@ export class ListComponent implements OnInit {
         this.alertService.showAlert("Erro ao deletar a Task", "danger");
       }
     );
+  }
+
+  statusTask(statusBool: Task) {
+    statusBool.status = !statusBool.status;
+    this.service.saveStatus(statusBool, statusBool.id).subscribe(
+      (success) => {
+        console.log('success: ',success);
+        window.location.reload();
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  }
+
+  dateFromPicker(date) {
+    console.log(date);
   }
 }

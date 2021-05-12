@@ -1,3 +1,4 @@
+import { Task } from './../../model/task.model';
 import { Input, ViewEncapsulation } from '@angular/core';
 import { Component, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
@@ -12,15 +13,15 @@ import { RequestService } from '../services/request.service';
 })
 export class CalendarComponent {
   @Output() dateEvent = new EventEmitter<string>();
-  @Input() item: any;
+  @Input() tasks: Task[];
   constructor (
     public service: RequestService
   ) {}
 
   customDate(args: any): void {
     var count: number = 1;
-    this.item.forEach((el) => {
-      if (moment(el.date).format('YYYY/MM/DD') == moment(args.date).format('YYYY/MM/DD')) {
+    this.tasks.forEach((el) => {
+      if ((moment(el.date).format('YYYY/MM/DD') == moment(args.date).format('YYYY/MM/DD')) && (el.status == false)) {
         count = count + count;
         console.log(count);
         if (count <= 2) {

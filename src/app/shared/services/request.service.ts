@@ -15,26 +15,22 @@ export class RequestService {
   constructor(private http: HttpClient) { }
 
   getTask() {
-    console.log(this.http.get<Task[]>(this.API))
-    return this.http.get<Task[]>(this.API)
-
+    return this.http.get<Task[]>(this.API);
   }
 
-  getTaskById(id) {
+  getTaskById(id: number) {
     return this.http.get(`${this.API}/${id}`).pipe(take(1));
   }
 
-  private newTask(task) {
+  private newTask(task: Task) {
     return this.http.post(this.API, task).pipe(take(1));
   }
 
-  private updateTask(task) {
-    console.log(task, ' update')
+  private updateTask(task: Task) {
     return this.http.put(`${this.API}/${task.id}`, task).pipe(take(1));
   }
 
-  save(task) {
-    console.log(task);
+  save(task: Task) {
     if (task.id) {
       console.log(task)
       return this.updateTask(task);
@@ -45,5 +41,9 @@ export class RequestService {
 
   deleteTask (id) {
     return this.http.delete(`${this.API}/${id}`).pipe(take(1));
+  }
+
+  saveStatus(status: Task, id: number) {
+    return this.http.put(`${this.API}/${id}`, status).pipe(take(1))
   }
 }

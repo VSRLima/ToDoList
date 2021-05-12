@@ -6,14 +6,13 @@
 <section>
   <header class="border-bot">
     <h4>Hoje</h4>
-    <p>{{ todayDate |date:'dd/MM/YY' }}</p>
+    <p>{{ todayDate | date:'dd/MM/YY' }}</p>
     <button (click)="renderCalendar()">
       <mat-icon svgIcon="calendar_today"></mat-icon>
     </button>
     <div *ngIf="renderCal">
-      <app-calendar (dateEvent)="dateFromCalendar($event)" [item]="taskToMark"></app-calendar>
+      <app-calendar (dateEvent)="dateFromCalendar($event)" [tasks]="taskToMark"></app-calendar>
     </div>
-
     <button
       type="button"
       class="btn btn-primary"
@@ -23,15 +22,18 @@
     >
       Novo
     </button>
-
   </header>
 
-  <ng-template #noTasks>
-    <p>Não tem tarefas</p>
-  </ng-template>
+
   <div *ngIf="tasks.length; else noTasks">
     <div class="card" *ngFor="let task of tasks">
-      <h5 class="card-header">{{ task.title }}</h5>
+      <div class="card-header">
+        <h2 >{{ task.title }}</h2>
+        <div class="status-box">
+          <label for="status">{{task.status == true ? 'Feito' : 'Não Feito'}}</label> <br>
+          <input type="checkbox" id="status" class="{{task.status == true ? 'done-task' : 'undone-task'}}" (click)="statusTask(task)" [(ngModel)]="task.status">
+        </div>
+      </div>
       <div class="dates">
         <div class="date_init" *ngIf="task.date">
           <h6>Data: </h6>
@@ -43,6 +45,7 @@
           <h6>Descrição: </h6>
           <p class="card-text">{{ task.description }}</p>
         </div>
+
         <button
           type="button"
           class="btn btn-primary"
@@ -85,9 +88,12 @@
           </div>
           <div class="mb-3">
             <label for="date" class="col-form-label">Data</label>
-            <input type="date" id="date"
-            class="form-control"
-            formControlName="date">
+            <app-data-picker id="date" (eventDate)="dateFromPicker($event)"></app-data-picker>
+          </div>
+          <div class="sm-2">
+            <label for="status" class="col-form-label">Status da Task</label>
+            <input type="checkbox" id="status" class="status-checkbox"
+            formControlName="status">
           </div>
           <div class="mb-3">
             <label for="description" class="col-form-label">Descrição</label>
@@ -111,7 +117,49 @@
   </div>
 </div>
 
+<ng-template #noTasks>
+  <p>Não tem tarefas</p>
+</ng-template>
 
+<section *ngIf="laterTasks.length">
+  <h1>TASKS ATRASADAS</h1>
+  <div class="card" *ngFor="let laterTask of laterTasks">
+    <header class="card-header">
+      <h2>{{laterTask.title}}</h2>
+      <div class="status-box">
+        <label for="status">{{laterTask.status == true ? 'Feito' : 'Não Feito'}}</label> <br>
+        <input type="checkbox" id="status" class="{{laterTask.status == true ? 'done-task' : 'undone-task'}}" (click)="statusTask(laterTask)" [(ngModel)]="laterTask.status">
+      </div>
+    </header>
+    <section class="card-body">
+      <div class="dates">
+        <div class="date_init" *ngIf="laterTask.date">
+          <h2>Data: </h2>
+          <span >{{ laterTask.date | date:'dd/LL/YY'}}</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div *ngIf="laterTask.description">
+          <h2>Descrição: </h2>
+          <p class="card-text">{{ laterTask.description }}</p>
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#exampleModal"
+          (click)="onEdit(laterTask.id)"
+        >
+          Editar
+        </button>
+        <button class="btn btn-danger" (click)="onDelete(laterTask.id)">
+          Deletar
+        </button>
+      </div>
+    </section>
+  </div>
+</section>
 
 
 

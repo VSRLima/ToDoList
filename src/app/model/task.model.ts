@@ -3,4 +3,5 @@ export class Task {
   public title: string;
   public date: number;
   public description: string;
+  public status: boolean;
 }

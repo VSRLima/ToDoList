@@ -6,21 +6,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { TaskModule } from './view/task.module';
 import { AppRoutingModule } from './app.routing';
-import { ListComponent } from './view/list/list.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SharedModule } from './shared/shared.module';
-import { CalendarModule } from '@syncfusion/ej2-angular-calendars';
+import { CalendarModule, DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { CalendarComponent } from './shared/calendar/calendar.component';
 import {MatIconModule} from '@angular/material/icon';
+import { DataPickerComponent } from './shared/data-picker/data-picker.component';
+import { ListComponent } from './view/list/list.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListComponent,
-    CalendarComponent
+    CalendarComponent,
+    DataPickerComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,8 @@ import {MatIconModule} from '@angular/material/icon';
     SharedModule,
     CalendarModule,
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    DatePickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
