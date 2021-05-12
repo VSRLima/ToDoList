@@ -43,15 +43,6 @@ export class ListComponent implements OnInit {
     this.formBuild();
   }
 
-  renderCalendar(): void {
-    this.renderCal = !this.renderCal;
-  }
-
-  dateFromCalendar(date) {
-    this.todayDate = date.value;
-    this.getTask();
-  }
-
   getTask() {
     this.service
       .getTask()
@@ -65,17 +56,20 @@ export class ListComponent implements OnInit {
       .subscribe((dados) => {
         this.taskToMark = dados;
         this.tasks = [];
-        dados.forEach((el, i) => {
-          if (moment(el.date).format('YYYY/MM/DD') == moment(this.todayDate).format('YYYY/MM/DD')) {
-            this.tasks.push(dados[i]);
-          } else if (moment(el.date).format('YYYY/MM/DD') < moment(this.todayDate).format('YYYY/MM/DD')) {
-            if (el.status == false) {
-              this.laterTasks.push(dados[i]);
-              console.log('tasks atrasadas', this.laterTasks);
-            }
-          }
+        dados.forEach((el) => {
+          this.dateVerify(el);
         });
       });
+  }
+
+  dateVerify(task: Task) {
+    if(moment(task.date).format('YYYY/MM/DD') == moment(this.todayDate).format('YYYY/MM/DD')) {
+      this.tasks.push(task);
+    } else if (moment(task.date).format('YYYY/MM/DD') < moment(this.todayDate).format('YYYY/MM/DD')) {
+      if (task.status == false) {
+        this.laterTasks.push(task);
+      }
+    }
   }
 
   formBuild() {
@@ -158,5 +152,14 @@ export class ListComponent implements OnInit {
 
   dateFromPicker(date) {
     console.log(date);
+  }
+
+  renderCalendar(): void {
+    this.renderCal = !this.renderCal;
+  }
+
+  dateFromCalendar(date) {
+    this.todayDate = date.value;
+    this.getTask();
   }
 }
