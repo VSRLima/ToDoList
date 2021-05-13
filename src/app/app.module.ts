@@ -1,3 +1,4 @@
+import { LatesTasksComponent } from './view/lates-tasks/lates-tasks.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,7 +24,8 @@ import { ListComponent } from './view/list/list.component';
     AppComponent,
     CalendarComponent,
     DataPickerComponent,
-    ListComponent
+    ListComponent,
+    LatesTasksComponent
   ],
   imports: [
     BrowserModule,

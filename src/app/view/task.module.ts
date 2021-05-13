@@ -6,12 +6,15 @@ import { TaskRoutingModule } from './task.routing';
 
 
 
+
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     TaskRoutingModule
   ],
-  declarations: []
+  declarations: [
+
+  ]
 })
 export class TaskModule { }

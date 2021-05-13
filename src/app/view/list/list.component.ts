@@ -21,6 +21,7 @@ export class ListComponent implements OnInit {
   tasks: Task[] = [];
   taskToMark: Task[] = [];
   laterTasks: Task[] = [];
+  dateLateTask = new Date();
   form: FormGroup;
   todayDate = new Date();
   receber: Observable<any>;
@@ -63,9 +64,10 @@ export class ListComponent implements OnInit {
   }
 
   dateVerify(task: Task) {
+    let verifyTodayDate = new Date();
     if(moment(task.date).format('YYYY/MM/DD') == moment(this.todayDate).format('YYYY/MM/DD')) {
       this.tasks.push(task);
-    } else if (moment(task.date).format('YYYY/MM/DD') < moment(this.todayDate).format('YYYY/MM/DD')) {
+    } else if (moment(task.date).format('YYYY/MM/DD') < moment(verifyTodayDate).format('YYYY/MM/DD')) {
       if (task.status == false) {
         this.laterTasks.push(task);
       }
@@ -90,12 +92,12 @@ export class ListComponent implements OnInit {
   }
 
   onEdit(id) {
-    this.service.getTaskById(id).subscribe((data) => {
+    this.service.getTaskById(id).subscribe((data: Task) => {
       this.populateForm(data);
     });
   }
 
-  populateForm(data) {
+  populateForm(data: Task) {
     this.form.patchValue({
       id: data.id,
       title: data.title,
@@ -106,8 +108,11 @@ export class ListComponent implements OnInit {
 
   onSubmit() {
     if (this.form.value.status === null) {
-      this.form.value.status = false;
+     this.form.value.status = false;
     }
+    // if (this.form.value.date === null ) {
+    //   this.form.value.date = moment(this.todayDate).format('YYYY-MM-DD');
+    // }
     this.service
       .save(this.form.value)
       .subscribe(
@@ -137,9 +142,9 @@ export class ListComponent implements OnInit {
     );
   }
 
-  statusTask(statusBool: Task) {
-    statusBool.status = !statusBool.status;
-    this.service.saveStatus(statusBool, statusBool.id).subscribe(
+  statusTask(statusData: Task) {
+    statusData.status = !statusData.status;
+    this.service.saveStatus(statusData, statusData.id).subscribe(
       (success) => {
         console.log('success: ',success);
         window.location.reload();
@@ -151,7 +156,7 @@ export class ListComponent implements OnInit {
   }
 
   dateFromPicker(date) {
-    console.log(date);
+    console.log(date.value);
   }
 
   renderCalendar(): void {
@@ -161,5 +166,10 @@ export class ListComponent implements OnInit {
   dateFromCalendar(date) {
     this.todayDate = date.value;
     this.getTask();
+  }
+
+  dateForLateTasks() {
+
+
   }
 }

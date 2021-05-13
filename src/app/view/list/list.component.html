@@ -121,44 +121,9 @@
   <p>Não tem tarefas</p>
 </ng-template>
 
+<!-- COLOCAR ISSO EM UM COMPONENTE SEPARADO -->
 <section *ngIf="laterTasks.length">
-  <h1>TASKS ATRASADAS</h1>
-  <div class="card" *ngFor="let laterTask of laterTasks">
-    <header class="card-header">
-      <h2>{{laterTask.title}}</h2>
-      <div class="status-box">
-        <label for="status">{{laterTask.status == true ? 'Feito' : 'Não Feito'}}</label> <br>
-        <input type="checkbox" id="status" class="{{laterTask.status == true ? 'done-task' : 'undone-task'}}" (click)="statusTask(laterTask)" [(ngModel)]="laterTask.status">
-      </div>
-    </header>
-    <section class="card-body">
-      <div class="dates">
-        <div class="date_init" *ngIf="laterTask.date">
-          <h2>Data: </h2>
-          <span >{{ laterTask.date | date:'dd/LL/YY'}}</span>
-        </div>
-      </div>
-      <div class="card-body">
-        <div *ngIf="laterTask.description">
-          <h2>Descrição: </h2>
-          <p class="card-text">{{ laterTask.description }}</p>
-        </div>
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-toggle="modal"
-          data-target="#exampleModal"
-          (click)="onEdit(laterTask.id)"
-        >
-          Editar
-        </button>
-        <button class="btn btn-danger" (click)="onDelete(laterTask.id)">
-          Deletar
-        </button>
-      </div>
-    </section>
-  </div>
+  <app-lates-tasks [laterTasks]="laterTasks"></app-lates-tasks>
 </section>
 
 
