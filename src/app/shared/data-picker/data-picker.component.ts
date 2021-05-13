@@ -10,8 +10,7 @@ export class DataPickerComponent {
   @Output() eventDate = new EventEmitter();
   public dataValue: Date = new Date();
 
-  constructor() {
-  }
+  constructor() {}
 
   onChange(args: any) {
     this.eventDate.emit(args)

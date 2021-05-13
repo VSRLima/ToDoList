@@ -23,7 +23,6 @@ export class CalendarComponent {
     this.tasks.forEach((el) => {
       if ((moment(el.date).format('YYYY/MM/DD') == moment(args.date).format('YYYY/MM/DD')) && (el.status == false)) {
         count = count + count;
-        console.log(count);
         if (count <= 2) {
           let span: HTMLElement;
           span = document.createElement('span');

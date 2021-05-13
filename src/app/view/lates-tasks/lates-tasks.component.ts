@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { EMPTY } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Task } from 'src/app/model/task.model';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { RequestService } from 'src/app/shared/services/request.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-lates-tasks',
@@ -9,7 +12,7 @@ import { RequestService } from 'src/app/shared/services/request.service';
   styleUrls: ['./lates-tasks.component.less']
 })
 export class LatesTasksComponent implements OnInit {
-  @Input() laterTasks: Task[];
+  laterTasks: Task[] = [];
   @Input() populateForm: (data: Task) => void;
   @Input() statusTask: (statusData: Task) => void;
 
@@ -19,7 +22,33 @@ export class LatesTasksComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.laterTasks);
+    this.getTasks();
+  }
+
+  getTasks() {
+    this.service
+      .getTask()
+      .pipe(
+        catchError((error) => {
+          console.error(error);
+          return EMPTY;
+        })
+      )
+      .subscribe((dados) => {
+        dados.forEach((el) => {
+          this.dateVerify(el);
+        });
+      });
+  }
+
+  dateVerify(task: Task) {
+    let verifyTodayDate = new Date();
+    if (moment(task.date).format('YYYY/MM/DD') < moment(verifyTodayDate).format('YYYY/MM/DD')) {
+      if (task.status == false) {
+        console.log('tasks inside dateVerify',task);
+        this.laterTasks.push(task);
+      }
+    }
   }
 
   onEdit(id) {

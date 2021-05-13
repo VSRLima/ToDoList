@@ -1,4 +1,4 @@
-import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { BsModalRef } from "ngx-bootstrap/modal";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { EMPTY, Observable } from "rxjs";
@@ -20,7 +20,6 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class ListComponent implements OnInit {
   tasks: Task[] = [];
   taskToMark: Task[] = [];
-  laterTasks: Task[] = [];
   dateLateTask = new Date();
   form: FormGroup;
   todayDate = new Date();
@@ -64,13 +63,8 @@ export class ListComponent implements OnInit {
   }
 
   dateVerify(task: Task) {
-    let verifyTodayDate = new Date();
     if(moment(task.date).format('YYYY/MM/DD') == moment(this.todayDate).format('YYYY/MM/DD')) {
-      this.tasks.push(task);
-    } else if (moment(task.date).format('YYYY/MM/DD') < moment(verifyTodayDate).format('YYYY/MM/DD')) {
-      if (task.status == false) {
-        this.laterTasks.push(task);
-      }
+      console.log('Parent dateVerify: ',this.tasks.push(task));
     }
   }
 
@@ -146,11 +140,7 @@ export class ListComponent implements OnInit {
     statusData.status = !statusData.status;
     this.service.saveStatus(statusData, statusData.id).subscribe(
       (success) => {
-        console.log('success: ',success);
         window.location.reload();
-      },
-      (error) => {
-        console.log(error);
       }
     )
   }
@@ -166,10 +156,5 @@ export class ListComponent implements OnInit {
   dateFromCalendar(date) {
     this.todayDate = date.value;
     this.getTask();
-  }
-
-  dateForLateTasks() {
-
-
   }
 }
