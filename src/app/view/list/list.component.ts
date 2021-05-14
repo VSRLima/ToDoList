@@ -1,3 +1,4 @@
+import { FormBuildService } from './../../shared/services/form-build.service';
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
@@ -21,26 +22,27 @@ export class ListComponent implements OnInit {
   tasks: Task[] = [];
   taskToMark: Task[] = [];
   dateLateTask = new Date();
-  form: FormGroup;
   todayDate = new Date();
   receber: Observable<any>;
   showNoTask: boolean = false;
   bsModalRef: BsModalRef;
   renderCal: boolean = false;
+  verifyLateTasks: boolean = false;
 
   constructor(
     private service: RequestService,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private formBuildService: FormBuildService
   ) {
     matIconRegistry.addSvgIcon('calendar_today', this.domSanitizer.bypassSecurityTrustResourceUrl("./../../../assets/calendar_today_black_24dp.svg"))
   }
 
   ngOnInit() {
     this.getTask();
-    this.formBuild();
+    this.formBuildService.formBuild();
   }
 
   getTask() {
@@ -64,18 +66,8 @@ export class ListComponent implements OnInit {
 
   dateVerify(task: Task) {
     if(moment(task.date).format('YYYY/MM/DD') == moment(this.todayDate).format('YYYY/MM/DD')) {
-      console.log('Parent dateVerify: ',this.tasks.push(task));
+        this.tasks.push(task);
     }
-  }
-
-  formBuild() {
-    this.form = this.formBuilder.group({
-      id: [null],
-      title: [null, Validators.required],
-      description: [null, Validators.maxLength(500)],
-      date: [null, Validators.required],
-      status: [ null ]
-    });
   }
 
   handleError() {
@@ -87,28 +79,19 @@ export class ListComponent implements OnInit {
 
   onEdit(id) {
     this.service.getTaskById(id).subscribe((data: Task) => {
-      this.populateForm(data);
-    });
-  }
-
-  populateForm(data: Task) {
-    this.form.patchValue({
-      id: data.id,
-      title: data.title,
-      date: data.date,
-      description: data.description,
+      this.formBuildService.populateForm(data);
     });
   }
 
   onSubmit() {
-    if (this.form.value.status === null) {
-     this.form.value.status = false;
+    if (this.formBuildService.form.value.status === null) {
+      this.formBuildService.form.value.status = false;
     }
-    // if (this.form.value.date === null ) {
-    //   this.form.value.date = moment(this.todayDate).format('YYYY-MM-DD');
+    // if (this.formBuildService.form.value.date === null ) {
+    //   this.formBuildService.form.value.date = moment(this.todayDate).format('YYYY-MM-DD');
     // }
     this.service
-      .save(this.form.value)
+      .save(this.formBuildService.form.value)
       .subscribe(
         (success) => {
           this.alertService.showAlert("Sucesso ao salvar nova Task", "success");
@@ -121,7 +104,7 @@ export class ListComponent implements OnInit {
   }
 
   resetForm() {
-    this.form.reset();
+    this.formBuildService.form.reset();
   }
 
   onDelete(id) {

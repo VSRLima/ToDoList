@@ -19,7 +19,7 @@
       "title": "adasdad",
       "description": "asdasdads",
       "date": "2021-05-10",
-      "status": false
+      "status": true
     },
     {
       "id": 8,
@@ -82,55 +82,41 @@
       "title": "teste status",
       "description": "teste de status",
       "date": "2021-05-12",
-      "status": false
-    },
-    {
-      "id": 17,
-      "title": "teste data picker",
-      "description": "teadsad",
-      "date": null,
-      "status": false
-    },
-    {
-      "id": 18,
-      "title": "hjkhkh",
-      "description": "87987",
-      "date": null,
-      "status": false
-    },
-    {
-      "id": 19,
-      "title": "asdadasd",
-      "description": "adsadsasdads",
-      "date": null,
-      "status": false
+      "status": true
     },
     {
       "id": 20,
       "title": "praya",
       "description": "ela pede pfvr\n",
       "date": "2021-05-12",
-      "status": false
+      "status": true
     },
     {
       "id": 21,
       "title": "senta senta devagar",
       "description": "a dani senta devagar",
       "date": "2021-05-12",
-      "status": false
+      "status": true
     },
     {
       "id": 22,
       "title": "senta senta devagar",
       "description": "a dani senta devagar",
       "date": "2021-05-12",
-      "status": false
+      "status": true
     },
     {
       "id": 23,
       "title": "dani senta devagar",
       "description": "é mais uma do dj",
       "date": "2021-05-11",
+      "status": false
+    },
+    {
+      "id": 24,
+      "title": "dasdasd",
+      "description": "adasdadsad",
+      "date": "2021-05-14",
       "status": false
     }
   ]

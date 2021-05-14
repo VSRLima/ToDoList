@@ -1,3 +1,4 @@
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
 import { EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -13,16 +14,18 @@ import * as moment from 'moment';
 })
 export class LatesTasksComponent implements OnInit {
   laterTasks: Task[] = [];
-  @Input() populateForm: (data: Task) => void;
-  @Input() statusTask: (statusData: Task) => void;
+  form: FormGroup;
 
   constructor(
     public service: RequestService,
-    public alertService: AlertService
+    public alertService: AlertService,
+    private formBuilder: FormBuilder,
+
   ) { }
 
   ngOnInit(): void {
     this.getTasks();
+    this.formBuild();
   }
 
   getTasks() {
@@ -45,7 +48,6 @@ export class LatesTasksComponent implements OnInit {
     let verifyTodayDate = new Date();
     if (moment(task.date).format('YYYY/MM/DD') < moment(verifyTodayDate).format('YYYY/MM/DD')) {
       if (task.status == false) {
-        console.log('tasks inside dateVerify',task);
         this.laterTasks.push(task);
       }
     }
@@ -54,6 +56,25 @@ export class LatesTasksComponent implements OnInit {
   onEdit(id) {
     this.service.getTaskById(id).subscribe((data: Task) => {
       this.populateForm(data);
+    });
+  }
+
+  formBuild() {
+    this.form = this.formBuilder.group({
+      id: [null],
+      title: [null, Validators.required],
+      description: [null, Validators.maxLength(500)],
+      date: [null, Validators.required],
+      status: [ null ]
+    });
+  }
+
+  populateForm(data: Task) {
+    this.form.patchValue({
+      id: data.id,
+      title: data.title,
+      date: data.date,
+      description: data.description,
     });
   }
 
@@ -69,5 +90,12 @@ export class LatesTasksComponent implements OnInit {
     );
   }
 
-
+  statusTask(statusData: Task) {
+    statusData.status = !statusData.status;
+    this.service.saveStatus(statusData, statusData.id).subscribe(
+      (success) => {
+        window.location.reload();
+      }
+    )
+  }
 }

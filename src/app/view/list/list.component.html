@@ -4,6 +4,7 @@
   </div>
 </nav>
 <section>
+  <!-- HEADER -->
   <header class="border-bot">
     <h4>Hoje</h4>
     <p>{{ todayDate | date:'dd/MM/YY' }}</p>
@@ -63,65 +64,11 @@
   </div>
 </section>
 
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nova mensagem</h5>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="form">
-          <div class="mb-3">
-            <label for="title" class="col-form-label">Título</label>
-            <input
-              type="text"
-              class="form-control"
-              id="title"
-              formControlName="title"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="date" class="col-form-label">Data</label>
-            <app-data-picker id="date" (eventDate)="dateFromPicker($event)"></app-data-picker>
-          </div>
-          <div class="sm-2">
-            <label for="status" class="col-form-label">Status da Task</label>
-            <input type="checkbox" id="status" class="status-checkbox"
-            formControlName="status">
-          </div>
-          <div class="mb-3">
-            <label for="description" class="col-form-label">Descrição</label>
-            <textarea
-              id="description"
-              class="form-control"
-              formControlName="description"
-            ></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
-        </button>
-        <button type="button" class="btn btn-primary" (click)="onSubmit()">
-          Send message
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <ng-template #noTasks>
   <p>Não tem tarefas</p>
 </ng-template>
 
-<section >
+<section>
   <app-lates-tasks ></app-lates-tasks>
 </section>
 
